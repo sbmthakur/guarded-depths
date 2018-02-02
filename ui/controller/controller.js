@@ -1,5 +1,6 @@
 app.controller('testController', function($scope, $http) {
-
+    
+    const BASE_URL = "http://guarded-depths-89920.herokuapp.com/skills"
     $scope.skillList = [];
     $scope.showAdd = false;
     $scope.addSkills = {
@@ -13,7 +14,7 @@ app.controller('testController', function($scope, $http) {
     }
     
     $scope.loadData = function(){
-              $http.get('http://l:3000/skills/get').then(function(res){
+              $http.get(BASE_URL + '/get').then(function(res){
                 console.log('RS:', res.data)
                    $scope.skillList = res.data;
                    console.log('LEN', $scope.skillList.length)
@@ -27,7 +28,7 @@ app.controller('testController', function($scope, $http) {
     $scope.addSkill = function() {
 
         $http
-            .post('http://l:3000/skills/add', {
+            .post(BASE_URL + '/add', {
                 name: $scope.addSkills.name,
                 status: $scope.addSkills.status
             })
@@ -53,7 +54,7 @@ app.controller('testController', function($scope, $http) {
 
     $scope.editSkill = function(obj) {
         $http
-            .post('http://l:3000/skills/edit', {
+            .post(BASE_URL + '/edit', {
                 id: obj.id,
                 name: obj.name
             })
@@ -77,7 +78,7 @@ app.controller('testController', function($scope, $http) {
         console.log("Your skill is ", id, status)
         
         $http
-            .post('http://l:3000/skills/status', {
+            .post(BASE_URL + '/status', {
                 id: id,
                 status: status
             })
@@ -116,7 +117,7 @@ app.controller('testController', function($scope, $http) {
     
      $scope.search = function(){
          console.log('ssdfsdf', $scope.searchSkill)
-         $http.get('http://l:3000/skills/search?term=' + $scope.searchSkill.term).then(function(res){
+         $http.get(BASE_URL + '/search?term=' + $scope.searchSkill.term).then(function(res){
         console.log(res.status)
                 if(res.status === 204){ 
                   alert("Skill not found");
