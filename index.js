@@ -1,9 +1,26 @@
+/*
+ * Use shortid for generating identifiers
+ */
 const shortid = require("shortid");
+
+/*
+ * Use express for serving APIs and 
+ * static files
+ */
 const express = require("express");
 const path = require("path");
 const app = express();
 app.use(express.json());
+
+/*
+ * Static file directory which contains out angular project
+ */
 app.use(express.static(path.resolve(__dirname, "ui")));
+
+/*
+ * Middleware for all API requests
+ * Handle CORS
+ */
 app.use('/skills', function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   next();
@@ -48,7 +65,6 @@ app.post("/skills/add", (req, res) => {
   };
   const id = shortid.generate();
   data[id] = newSkill;
-  console.log(data);
   res.send({"id": id});
 });
 
@@ -79,7 +95,6 @@ app.post("/skills/edit", (req, res) => {
  *  -> status
  */
 app.post("/skills/status", (req, res) => {
-console.log('ressss', req.body) 
   const id = req.body.id;
   if(data.hasOwnProperty(id)) {
     
@@ -95,7 +110,6 @@ console.log('ressss', req.body)
       res.send(data[id].status);
     }
   }
-
   else {
     res.status(401).send("Unauthorized"); 
   }
